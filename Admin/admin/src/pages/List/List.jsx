@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "./List.css";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 const List = ({url}) => {
   const [list, setList] = useState([]);
 
-  const fetchList = async () => {
+  const fetchList = useCallback(async () => {
     const response = await axios.get(`${url}/api/food/list`);
     //console.log(response.data); //Check  the data in the console they are coming in the correct format or not
     if (response.data.success) {
@@ -15,11 +15,11 @@ const List = ({url}) => {
     } else {
       toast.error("Error");
     }
-  };
+  }, [url]);
 
   const removeFood =async(foodId) =>{
      //console.log(foodId); // check food ID
-     const response =await axios.post(`${url}/api/food/remove ` , {id : foodId});
+     const response =await axios.post(`${url}/api/food/remove` , {id : foodId});
      await fetchList();
      //console.log(response.data); // check the response data
      if(response.data.success){
@@ -32,7 +32,7 @@ const List = ({url}) => {
   }
   useEffect(() => {
     fetchList();
-  });
+  }, [fetchList]);
 
   return (
     <div className="lists flex-col">

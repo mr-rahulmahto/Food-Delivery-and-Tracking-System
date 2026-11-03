@@ -1,7 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { createContext } from "react";
 import Card from "../pages/Cart/Card"
 import React from "react";
@@ -55,15 +55,15 @@ const StoreContextProvider = (props) => {
     return totalAmount;
   }
 
-  const fetchFoodList = async () =>{
+  const fetchFoodList = useCallback(async () =>{
      const response = await axios.get(url+"/api/food/list");
      setFoodList(response.data.data)
-  }
+  }, [url])
 
-  const loadCardData = async (token) => {
+  const loadCardData = useCallback(async (token) => {
     const response = await axios.post(url+"/api/cart/get" ,{} , {headers:{token}});
      setCartItems(response.data.cartData);
-  }
+  }, [url])
 
   useEffect (()=>{
       // if(localStorage.getItem("token")){
@@ -77,7 +77,7 @@ const StoreContextProvider = (props) => {
         }
       }
       loadData();
-  } ,[])
+  } ,[fetchFoodList, loadCardData])
 
   const contextValue = {
     // Define your context values here
