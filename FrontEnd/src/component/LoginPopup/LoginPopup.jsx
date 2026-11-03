@@ -36,7 +36,7 @@ const LoginPopup = ({ setShowLogin }) => {
     setLoading(true)   //  start loading
 
     try {
-      const response = await axios.post(newUrl, data);  //  axios inside try
+      const response = await axios.post(newUrl, data);
 
       if (response.data.success) {
         if (currState === "Login") {
@@ -51,13 +51,12 @@ const LoginPopup = ({ setShowLogin }) => {
           setData({ name: "", email: "", password: "" });
         }
       } else {
-        //  response.data.message is a string, not a function
         alert(response.data.message || "Something went wrong.");
       }
 
     } catch (error) {
       console.log(error);
-      alert("Something went wrong while connecting to server.");
+      alert(error.response?.data?.message || "Something went wrong while connecting to server.");
     } finally {
       setLoading(false)  //  always stop loading
     }

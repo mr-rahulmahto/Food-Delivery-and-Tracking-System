@@ -16,7 +16,7 @@ const StoreContextProvider = (props) => {
   // This state will hold the count of items in the cart
   // It will be an object where keys are item IDs and values are counts
 
-  const url = "https://food-backend-1olw.onrender.com";
+  const url = import.meta.env.VITE_BACKEND_URL || "https://food-backend-1olw.onrender.com";
   const [token , setToken] = useState("");
  const [food_list , setFoodList] = useState([])
 
